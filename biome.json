@@ -32,6 +32,13 @@
       "suspicious": {
         "noImplicitAnyLet": "warn",
         "noEmptyInterface": "error"
+      },
+      "correctness": {
+        "noUnusedImports": {
+          "level": "error",
+          "fix": "safe",
+          "options": {}
+        }
       }
     }
   },
