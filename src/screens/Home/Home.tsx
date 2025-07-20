@@ -1,33 +1,18 @@
 import { useState } from 'react';
-import { Button, View } from 'react-native';
-import Drunkometer from '../../components';
+import { View } from 'react-native';
+import { AddDrinkModal, Drunkometer } from '../../components';
+import { BAC_THRESHOLDS } from '../../constants';
 import styles from './styles';
 
 const Home = () => {
-  const [BAC, setBAC] = useState(0);
+  const [BAC, setBAC] = useState(BAC_THRESHOLDS.sober);
   return (
     <View style={styles.container}>
-      <Drunkometer bac={BAC} />
-      <View style={styles.drinkPanel}>
-        <Button
-          title={'Beer'}
-          onPress={() => {
-            setBAC(BAC + +0.025);
-          }}
-        ></Button>
-        <Button
-          title={'Wine'}
-          onPress={() => {
-            setBAC(BAC + +0.03);
-          }}
-        ></Button>
-        <Button
-          title={'Shot'}
-          onPress={() => {
-            setBAC(BAC + +0.02);
-          }}
-        ></Button>
-      </View>
+      <Drunkometer BAC={BAC} />
+      <AddDrinkModal
+        BAC={BAC}
+        setBAC={setBAC}
+      />
     </View>
   );
 };

@@ -1,3 +1,5 @@
+import type { Drink } from './types';
+
 export const MAX_BAC = 0.3;
 
 export const BAC_THRESHOLDS = {
@@ -9,5 +11,28 @@ export const BAC_THRESHOLDS = {
   wrecked: MAX_BAC,
 };
 
-export const LEGAL_LIMIT_CAR = 0.02;
-export const LEGAL_LIMIT_BOAT = 0.08;
+export const DRINKS = {
+  beer: {
+    label: 'Beer',
+    emoji: '🍺',
+    defaultVolumeMl: 400,
+    defaultAbvPercent: 4.7,
+  },
+  wine: {
+    label: 'Wine',
+    emoji: '🍷',
+    defaultVolumeMl: 150,
+    defaultAbvPercent: 12,
+  },
+  shot: {
+    label: 'Shot',
+    emoji: '🥃',
+    defaultVolumeMl: 40,
+    defaultAbvPercent: 40,
+  },
+} as const satisfies Record<string, Drink>;
+
+export const LEGAL_LIMITS = {
+  car: 0.02,
+  boat: 0.08,
+};
