@@ -1,20 +1,16 @@
 import { useState } from 'react';
 import { Modal, Pressable, Text, View } from 'react-native';
-import { DRINKS, type Drink } from '../constants';
+import { DRINKS } from '../constants';
+import { useDrinkLog } from '../context/DrinkLogContext';
+import type { Drink } from '../types';
 import styles from './styles';
 
-interface AddDrinkModalProps {
-  BAC: number;
-  setBAC: (bac: number) => void;
-}
-
-const AddDrinkModal = ({ BAC, setBAC }: AddDrinkModalProps) => {
+const AddDrinkModal = () => {
   const [visible, setVisible] = useState(false);
+  const { addDrink } = useDrinkLog();
+
   const handleDrink = (drink: Drink) => {
-    const alcoholGrams = ((drink.defaultVolumeMl * drink.defaultAbvPercent) / 100) * 0.8;
-    const bacIncrease = alcoholGrams * 0.001; // Simplified calculation
-    const newBAC = BAC + bacIncrease;
-    setBAC(newBAC);
+    addDrink(drink);
     setVisible(false);
   };
 
