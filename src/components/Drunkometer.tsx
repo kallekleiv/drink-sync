@@ -4,9 +4,9 @@ import { MAX_BAC } from '../constants';
 import { getDrunkFeedback } from '../utils';
 import styles from './styles';
 
-const Drunkometer = ({ bac }: { bac: number }) => {
-  const percent = Math.min(bac / MAX_BAC) * 100;
-  const { status, message, color } = getDrunkFeedback(bac);
+const Drunkometer = ({ BAC }: { BAC: number }) => {
+  const percent = Math.min(BAC / MAX_BAC) * 100;
+  const { status, message, color } = getDrunkFeedback(BAC);
 
   return (
     <View style={styles.drunkometer}>
@@ -22,7 +22,7 @@ const Drunkometer = ({ bac }: { bac: number }) => {
       >
         {() => (
           <View style={styles.textContainer}>
-            <Text style={styles.drunkometerScale}>{bac.toFixed(3)}%</Text>
+            <Text style={styles.drunkometerScale}>{BAC.toFixed(3)}%</Text>
           </View>
         )}
       </AnimatedCircularProgress>

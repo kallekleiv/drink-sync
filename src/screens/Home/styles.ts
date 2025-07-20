@@ -10,10 +10,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
   },
-  drinkPanel: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
 });
 
 export default styles;
