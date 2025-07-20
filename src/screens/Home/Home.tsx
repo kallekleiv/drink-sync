@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Button, View } from 'react-native';
 import Drunkometer from '../../components';
+import { DRINKS_AC } from '../../constants';
 import styles from './styles';
 
 const Home = () => {
@@ -12,19 +13,19 @@ const Home = () => {
         <Button
           title={'Beer'}
           onPress={() => {
-            setBAC(BAC + +0.025);
+            setBAC(BAC + DRINKS_AC.beer);
           }}
         ></Button>
         <Button
           title={'Wine'}
           onPress={() => {
-            setBAC(BAC + +0.03);
+            setBAC(BAC + DRINKS_AC.wine);
           }}
         ></Button>
         <Button
           title={'Shot'}
           onPress={() => {
-            setBAC(BAC + +0.02);
+            setBAC(BAC + DRINKS_AC.shot);
           }}
         ></Button>
       </View>

@@ -9,5 +9,13 @@ export const BAC_THRESHOLDS = {
   wrecked: MAX_BAC,
 };
 
-export const LEGAL_LIMIT_CAR = 0.02;
-export const LEGAL_LIMIT_BOAT = 0.08;
+export const DRINKS_AC = {
+  beer: 0.025,
+  wine: 0.03,
+  shot: 0.02,
+};
+
+export const LEGAL_LIMITS = {
+  car: 0.02,
+  boat: 0.08,
+};
