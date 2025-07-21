@@ -1,5 +1,7 @@
-import { createContext, type ReactNode, useContext, useState } from 'react';
+import { createContext, type ReactNode, useContext, useEffect, useState } from 'react';
+import { DEFAULT_WEIGHT } from '../constants';
 import type { Drink } from '../types';
+import { calculateBAC } from '../utils/calculations';
 
 export type DrinkEntry = {
   id: string;
@@ -19,8 +21,10 @@ const DrinkLogContext = createContext<DrinkLogContextType | undefined>(undefined
 
 export const DrinkLogProvider = ({ children }: { children: ReactNode }) => {
   const [drinks, setDrinks] = useState<DrinkEntry[]>([]);
+  const [currentBAC, setCurrentBAC] = useState(0);
 
   const addDrink = (drink: Drink, volume?: number) => {
+    console.log(`Adding ${JSON.stringify(drink)}`);
     const entry: DrinkEntry = {
       id: Date.now().toString(),
       drink,
@@ -30,16 +34,27 @@ export const DrinkLogProvider = ({ children }: { children: ReactNode }) => {
     setDrinks((prev) => [...prev, entry]);
   };
 
-  const currentBAC = drinks.reduce((total, entry) => {
-    const volumeUsed = entry.volume || entry.drink.defaultVolumeMl;
-    const alcoholGrams = ((volumeUsed * entry.drink.defaultAbvPercent) / 100) * 0.8;
-    return total + alcoholGrams * 0.001;
-  }, 0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = Date.now();
+      const newBAC = calculateBAC(drinks, DEFAULT_WEIGHT, now);
+      setCurrentBAC(newBAC);
+    }, 5000); // Update every 5 seconds for smooth progression
 
-  const clearLog = () => setDrinks([]);
+    // Initial calculation
+    const now = Date.now();
+    setCurrentBAC(calculateBAC(drinks, DEFAULT_WEIGHT, now));
+
+    return () => clearInterval(interval);
+  }, [drinks]);
+
+  const clearLog = () => {
+    setDrinks([]);
+    setCurrentBAC(0);
+  };
 
   return (
-    <DrinkLogContext.Provider value={{ drinks, addDrink, currentBAC, clearLog }}>
+    <DrinkLogContext.Provider value={{ drinks, addDrink, clearLog, currentBAC }}>
       {children}
     </DrinkLogContext.Provider>
   );
