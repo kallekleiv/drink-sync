@@ -1,18 +1,15 @@
-import { useState } from 'react';
 import { View } from 'react-native';
-import { AddDrinkModal, Drunkometer } from '../../components';
-import { BAC_THRESHOLDS } from '../../constants';
+import { AddDrinkModal, DrinkLog, Drunkometer } from '../../components';
+import { useDrinkLog } from '../../context/DrinkLogContext';
 import styles from './styles';
 
 const Home = () => {
-  const [BAC, setBAC] = useState(BAC_THRESHOLDS.sober);
+  const { currentBAC } = useDrinkLog();
   return (
     <View style={styles.container}>
-      <Drunkometer BAC={BAC} />
-      <AddDrinkModal
-        BAC={BAC}
-        setBAC={setBAC}
-      />
+      <Drunkometer BAC={currentBAC} />
+      <AddDrinkModal />
+      <DrinkLog />
     </View>
   );
 };
