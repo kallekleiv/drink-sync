@@ -14,11 +14,11 @@ const DrinkLog = () => {
 
   const renderDrinkItem = ({ item }: { item: DrinkEntry }) => (
     <View style={styles.drinkLogEntry}>
-      <Text>{formatTime(item.timestamp)}</Text>
+      <Text style={styles.timeFormat}>{formatTime(item.timestamp)}</Text>
       <View style={styles.drink}>
         <Text style={styles.cell}>{item.drink.emoji}</Text>
         <Text style={styles.cell}>{item.drink.label}</Text>
-        <Text style={styles.cell}>{item.volume} ml</Text>
+        <Text style={styles.cell}>{item.volume}ml</Text>
         <Text style={styles.cell}>{item.drink.defaultAbvPercent}%</Text>
       </View>
     </View>
@@ -27,7 +27,7 @@ const DrinkLog = () => {
   if (drinks.length === 0) {
     return (
       <View style={styles.drinkLogContainer}>
-        <View>
+        <View style={styles.logHeader}>
           <Text style={styles.drinkLogTitle}>Drink Log</Text>
           <Text>No drinks logged.</Text>
         </View>
@@ -37,20 +37,23 @@ const DrinkLog = () => {
 
   return (
     <View style={styles.drinkLogContainer}>
-      <View>
-        <Text style={styles.drinkLogTitle}>Drink Log ({drinks.length})</Text>
-        <Pressable onPress={clearLog}>
-          <Text>Clear</Text>
+      <View style={styles.logHeader}>
+        <Text style={styles.drinkLogTitle}>Drink Log</Text>
+        <Pressable
+          onPress={clearLog}
+          hitSlop={10}
+          style={styles.clearButton}
+        >
+          <Text style={styles.clearButtonText}>×</Text>
         </Pressable>
       </View>
 
       <FlatList
-        data={drinks}
+        data={[...drinks].reverse()}
         renderItem={renderDrinkItem}
         keyExtractor={(item) => item.id}
         style={styles.drinkList}
         showsVerticalScrollIndicator={false}
-        inverted={true}
       />
     </View>
   );
