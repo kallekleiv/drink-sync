@@ -1,4 +1,40 @@
-import { BAC_THRESHOLDS } from '../constants';
+import {
+  ALCOHOL_DENSITY,
+  BAC_THRESHOLDS,
+  BODY_WATER_CONSTANT,
+  METABOLISM_RATE,
+} from '../constants';
+import type { DrinkEntry } from '../context/DrinkLogContext';
+
+export const calculateBAC = (drinks: DrinkEntry[], weightKg: number, now: number): number => {
+  return drinks.reduce((acc, entry) => {
+    const hoursAgo = (now - entry.timestamp.getTime()) / 3600000;
+    const minutesAgo = hoursAgo * 60;
+
+    console.log(`Drink: ${entry.drink.label}, ${minutesAgo.toFixed(1)} min ago`);
+
+    const absorptionFactor = getAbsorptionFactor(hoursAgo);
+    console.log(`Absorption factor: ${absorptionFactor.toFixed(3)}`);
+
+    const pureAlcoholMl = (entry.volume * entry.drink.defaultAbvPercent) / 100;
+    const grams = pureAlcoholMl * ALCOHOL_DENSITY;
+    const maxBAC = grams / (weightKg * BODY_WATER_CONSTANT);
+
+    const currentBAC = maxBAC * absorptionFactor;
+    const metabolized = METABOLISM_RATE * Math.max(0, hoursAgo - 0.5);
+
+    const finalBAC = Math.max(0, currentBAC - metabolized);
+    console.log(`Max: ${maxBAC.toFixed(4)}, Current: ${finalBAC.toFixed(4)}`);
+
+    return acc + finalBAC;
+  }, 0);
+};
+
+const getAbsorptionFactor = (hoursAgo: number): number => {
+  if (hoursAgo < 0) return 0;
+  if (hoursAgo < 0.5) return hoursAgo * 2;
+  return 1;
+};
 
 export const getDrunkFeedback = (
   bac: number,

@@ -1,6 +1,10 @@
 import type { Drink } from './types';
 
 export const MAX_BAC = 0.3;
+export const ALCOHOL_DENSITY = 0.789; // g/mL
+export const BODY_WATER_CONSTANT = 0.68; // avg male
+export const METABOLISM_RATE = 0.15; // promille/hour
+export const DEFAULT_WEIGHT = 80; // kg
 
 export const BAC_THRESHOLDS = {
   sober: 0.0,

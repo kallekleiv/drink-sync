@@ -27,7 +27,12 @@
       },
       "style": {
         "noShoutyConstants": "warn",
-        "useSingleVarDeclarator": "warn"
+        "useSingleVarDeclarator": "warn",
+        "useTemplate": {
+          "level": "warn",
+          "fix": "safe",
+          "options": {}
+        }
       },
       "suspicious": {
         "noImplicitAnyLet": "warn",
